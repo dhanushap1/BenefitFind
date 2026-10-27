@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BenefitFind - Admin Login</title>
+
+  
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #F7F4ED;
+    color: #24332F;
+    line-height: 1.5;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    background: #FFFFFF;
+    border: 1px solid #DDE3DE;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  h1 {
+    color: #176B5B;
+    text-align: center;
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    color: #68756F;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #DDE3DE;
+    border-radius: 8px;
+    margin-bottom: 17px;
+    outline: none;
+    background: #FFFFFF;
+    color: #24332F;
+    font: inherit;
+  }
+
+  input:focus {
+    border-color: #176B5B;
+  }
+
+  button {
+    width: 100%;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font: inherit;
+    font-weight: bold;
+    border: none;
+    background: #176B5B;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #105446;
+  }
+
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  #message {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .back-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #176B5B;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    color: #105446;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 500px) {
+    .login-box {
+      padding: 28px 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <div class="login-box">
+    <h1>BenefitFind</h1>
+    <p class="subtitle">Administrator Login</p>
+
+    <form id="adminLoginForm">
+      <label for="email">Admin Email</label>
+      <input
+        type="email"
+        id="email"
+        required
+        autocomplete="username"
+        placeholder="Enter admin email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        required
+        autocomplete="current-password"
+        placeholder="Enter password"
+      >
+
+      <button type="submit" id="loginButton">Login as Admin</button>
+    </form>
+
+    <p id="message" role="status"></p>
+
+    <a class="back-link" href="/">Back to User Portal</a>
+  </div>
+
+  <script>
+    const form = document.getElementById("adminLoginForm");
+    const message = document.getElementById("message");
+    const loginButton = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      message.textContent = "";
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+
+      try {
+        const response = await fetch("/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: document.getElementById("email").value.trim(),
+            password: document.getElementById("password").value
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Login failed.");
+        }
+
+        sessionStorage.setItem("adminToken", data.token);
+        sessionStorage.setItem("adminDetails", JSON.stringify(data.admin));
+
+        window.location.href = "/admin-dashboard.html";
+      } catch (error) {
+        message.textContent = error.message || "Unable to connect to the server.";
+        message.style.color = "#c62828";
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Login as Admin";
+      }
+    });
+  </script>
+</body>
+</html>

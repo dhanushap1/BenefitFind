@@ -1,0 +1,171 @@
+<!-- ================= LOGIN ================= -->
+
+<section class="auth-page" *ngIf="!showRegisterPage">
+
+  <div class="auth-card">
+
+    <div class="brand center">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind</span>
+    </div>
+
+    <h1>Find benefits you may be eligible for.</h1>
+
+    <p class="muted">
+      One profile. Relevant government schemes. Less searching.
+    </p>
+
+    <form (ngSubmit)="login()">
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        name="loginEmail"
+        [(ngModel)]="loginEmail"
+        placeholder="you@example.com"
+        required
+      >
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        name="loginPassword"
+        [(ngModel)]="loginPassword"
+        placeholder="••••••••"
+        required
+      >
+
+      <button
+        class="btn primary full"
+        type="submit"
+      >
+        Login
+      </button>
+
+    </form>
+
+    <p class="auth-switch">
+
+      Don't have an account?
+
+      <button
+        class="text-btn"
+        type="button"
+        (click)="showRegister()"
+      >
+        Create account
+      </button>
+
+    </p>
+
+    <div
+      *ngIf="message"
+      class="message"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'"
+    >
+      {{ message }}
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= REGISTER ================= -->
+
+<section class="auth-page" *ngIf="showRegisterPage">
+
+  <div class="auth-card">
+
+    <div class="brand center">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind</span>
+    </div>
+
+    <h1>Create your account</h1>
+
+    <p class="muted">
+      Create your profile to find relevant government benefits.
+    </p>
+
+    <form (ngSubmit)="register()">
+
+      <label>Full Name</label>
+
+      <input
+        type="text"
+        name="registerName"
+        [(ngModel)]="registerName"
+        placeholder="Enter your name"
+        required
+      >
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        name="registerEmail"
+        [(ngModel)]="registerEmail"
+        placeholder="you@example.com"
+        required
+      >
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        name="registerPassword"
+        [(ngModel)]="registerPassword"
+        placeholder="Create password"
+        required
+      >
+
+      <label>Confirm Password</label>
+
+      <input
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        placeholder="Confirm password"
+        required
+      >
+
+      <button
+        class="btn primary full"
+        type="submit"
+        [disabled]="isRegistering"
+      >
+        {{ isRegistering ? 'Creating Account...' : 'Create Account' }}
+      </button>
+
+    </form>
+
+    <p class="auth-switch">
+
+      Already have an account?
+
+      <button
+        class="text-btn"
+        type="button"
+        (click)="showLogin()"
+      >
+        Login
+      </button>
+
+    </p>
+
+    <div
+      *ngIf="message"
+      class="message"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'"
+    >
+      {{ message }}
+    </div>
+
+  </div>
+
+</section>

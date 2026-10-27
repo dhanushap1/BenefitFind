@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BenefitFind - Choose Login</title>
+
+  
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #F7F4ED;
+    color: #24332F;
+    line-height: 1.5;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 760px;
+    text-align: center;
+  }
+
+  h1 {
+    color: #176B5B;
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    color: #68756F;
+    margin-bottom: 30px;
+    font-size: 17px;
+  }
+
+  .choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .choice {
+    display: block;
+    padding: 32px 24px;
+    background: #FFFFFF;
+    border: 1px solid #DDE3DE;
+    border-radius: 16px;
+    color: #24332F;
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s,
+                transform 0.2s;
+  }
+
+  .choice:hover {
+    border-color: #176B5B;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+  }
+
+  .symbol {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    color: #176B5B;
+    font-size: 25px;
+    margin: 8px 0 14px;
+  }
+
+  .choice p {
+    color: #68756F;
+    line-height: 1.6;
+    min-height: 52px;
+    margin-bottom: 18px;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: #176B5B;
+    color: #FFFFFF;
+    font-weight: bold;
+  }
+
+  .choice:hover .button {
+    background: #105446;
+  }
+
+  @media (max-width: 520px) {
+    .choices {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>BenefitFind</h1>
+    <p class="subtitle">
+      Find the government benefits you deserve.
+      Choose how you want to continue.
+    </p>
+
+    <div class="choices">
+      <a class="choice" href="/index.html">
+        <div class="symbol">👤</div>
+        <h2>User</h2>
+        <p>Register or log in to explore government schemes
+          and check your eligibility.</p>
+        <span class="button">Continue as User</span>
+      </a>
+
+      <a class="choice" href="/admin-login.html">
+        <div class="symbol">🛡️</div>
+        <h2>Admin</h2>
+        <p>Log in to manage schemes and maintain
+          BenefitFind information.</p>
+        <span class="button">Continue as Admin</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

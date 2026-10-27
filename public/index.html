@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BenefitFind - Government Benefits Finder</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage" class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="brand center">
+            <span class="brand-icon">✓</span>
+            <span>BenefitFind</span>
+        </div>
+
+        <h1>Find benefits you may be eligible for.</h1>
+
+        <p class="muted">
+            One profile. Relevant government schemes. Less searching.
+        </p>
+
+        <form id="loginForm">
+
+            <label>Email</label>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="you@example.com"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="••••••••"
+                required
+            >
+
+            <button class="btn primary full" type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            Don't have an account?
+            <button class="text-btn" onclick="showRegister()">
+                Create account
+            </button>
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REGISTER ================= -->
+
+<section id="registerPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+        <div class="brand center">
+            <span class="brand-icon">✓</span>
+            <span>BenefitFind</span>
+        </div>
+
+        <h1>Create your account</h1>
+
+        <p class="muted">
+            Create your profile to find relevant government benefits.
+        </p>
+
+        <form id="registerForm">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Enter your name"
+                required
+            >
+
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="you@example.com"
+                required
+            >
+
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Create password"
+                required
+            >
+
+
+            <label>Confirm Password</label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm password"
+                required
+            >
+
+
+            <button class="btn primary full" type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p class="auth-switch">
+
+            Already have an account?
+
+            <button class="text-btn" onclick="showLogin()">
+                Login
+            </button>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= MAIN APPLICATION ================= -->
+
+<div id="app" class="hidden">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <span class="brand-icon">✓</span>
+
+            <span>BenefitFind</span>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <button
+                class="notification-button"
+                onclick="showPage('notifications')"
+            >
+                🔔
+            </button>
+
+
+            <button
+                class="profile-button"
+                onclick="showPage('profile')"
+            >
+
+                <span id="userInitials">A</span>
+
+                <span id="userNameTop">
+                    Ananya
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <div class="layout">
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <nav>
+
+                <button
+                    class="nav-item active"
+                    data-page="dashboard"
+                    onclick="showPage('dashboard')"
+                >
+                    <span>⌂</span>
+                    Home
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="explore"
+                    onclick="showPage('explore')"
+                >
+                    <span>⌕</span>
+                    Explore Benefits
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="saved"
+                    onclick="showPage('saved')"
+                >
+                    <span>♡</span>
+                    Saved
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="deadlines"
+                    onclick="showPage('deadlines')"
+                >
+                    <span>◷</span>
+                    Deadlines
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="profile"
+                    onclick="showPage('profile')"
+                >
+                    <span>○</span>
+                    My Profile
+                </button>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <button
+                    class="nav-item"
+                    data-page="notifications"
+                    onclick="showPage('notifications')"
+                >
+                    <span>♢</span>
+                    Notifications
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    onclick="logout()"
+                >
+                    <span>↪</span>
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="content">
+
+
+            <!-- ================= DASHBOARD ================= -->
+
+            <section id="dashboard" class="page">
+
+                <div class="welcome">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            YOUR BENEFITS
+                        </p>
+
+                        <h1>
+                            Good evening,
+                            <span id="welcomeName">
+                                Ananya
+                            </span>.
+                        </h1>
+
+                        <p>
+                            We found benefits that may match your profile.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn primary"
+                        onclick="showPage('explore')"
+                    >
+                        Explore Benefits →
+                    </button>
+
+                </div>
+
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats">
+
+                    <div class="stat-card">
+
+                        <strong id="matchCount">
+                            6
+                        </strong>
+
+                        <span>
+                            Possible matches
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong id="deadlineCount">
+                            0
+                        </strong>
+
+                        <span>
+                            Deadlines soon
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong id="savedCount">
+                            2
+                        </strong>
+
+                        <span>
+                            Saved schemes
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECOMMENDED -->
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>
+                            Recommended Benefits
+                        </h2>
+
+                        <p>
+                            Based on your profile information.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="text-btn"
+                        onclick="showPage('explore')"
+                    >
+                        View all
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="recommendedList"
+                    class="scheme-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ================= EXPLORE ================= -->
+
+            <section
+                id="explore"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            DISCOVER
+                        </p>
+
+                        <h1>
+                            Explore Government Benefits
+                        </h1>
+
+                        <p>
+                            Search and find schemes that may be useful to you.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="search-row">
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search scholarships, housing, employment..."
+                        oninput="renderExplore()"
+                    >
+
+
+                    <select
+                        id="categoryFilter"
+                        onchange="renderExplore()"
+                    >
+
+                        <option value="All">
+                            All Categories
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="Employment">
+                            Employment
+                        </option>
+
+                        <option value="Housing">
+                            Housing
+                        </option>
+
+                        <option value="Healthcare">
+                            Healthcare
+                        </option>
+
+                        <option value="Agriculture">
+                            Agriculture
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="category-row">
+
+                    <button
+                        class="category-btn active"
+                        onclick="setCategory('All', this)"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Education', this)"
+                    >
+                        Education
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Employment', this)"
+                    >
+                        Employment
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Housing', this)"
+                    >
+                        Housing
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Healthcare', this)"
+                    >
+                        Healthcare
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Agriculture', this)"
+                    >
+                        Agriculture
+                    </button>
+
+                </div>
+
+
+                <p
+                    id="resultText"
+                    class="result-text"
+                ></p>
+
+
+                <div
+                    id="exploreList"
+                    class="scheme-grid"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ================= SAVED ================= -->
+
+            <section
+                id="saved"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            YOUR LIST
+                        </p>
+
+                        <h1>
+                            Saved Benefits
+                        </h1>
+
+                        <p>
+                            Keep schemes you want to apply for later.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="savedList"
+                    class="scheme-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ================= DEADLINES ================= -->
+
+            <section
+                id="deadlines"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            DON'T MISS OUT
+                        </p>
+
+                        <h1>
+                            Upcoming Deadlines
+                        </h1>
+
+                        <p>
+                            Important application dates.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="deadlineList"
+                    class="deadline-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ================= PROFILE ================= -->
+
+            <section
+                id="profile"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            YOUR INFORMATION
+                        </p>
+
+                        <h1>
+                            My Profile
+                        </h1>
+
+                        <p>
+                            Keep your information updated.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn outline"
+                        onclick="toggleEditProfile()"
+                    >
+                        Edit Profile
+                    </button>
+
+                </div>
+
+
+
+                <div class="profile-card">
+
+                    <div
+                        class="avatar"
+                        id="profileAvatar"
+                    >
+                        A
+                    </div>
+
+
+                    <div>
+
+                        <h2 id="profileName">
+                            Ananya
+                        </h2>
+
+                        <p id="profileLocation">
+                            Kerala • Ernakulam
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <form
+                    id="profileForm"
+                    class="profile-form"
+                >
+
+
+                    <!-- PERSONAL -->
+
+                    <div class="info-section">
+
+                        <h3>
+                            Personal Information
+                        </h3>
+
+
+                        <div class="form-grid">
+
+                            <div>
+
+                                <label>
+                                    Full Name
+                                </label>
+
+                                <input
+                                    id="pName"
+                                    value="Ananya"
+                                    disabled
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Age
+                                </label>
+
+                                <input
+                                    id="pAge"
+                                    type="number"
+                                    value="22"
+                                    disabled
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Gender
+                                </label>
+
+                                <select
+                                    id="pGender"
+                                    disabled
+                                >
+
+                                    <option>
+                                        Female
+                                    </option>
+
+                                    <option>
+                                        Male
+                                    </option>
+
+                                    <option>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LOCATION -->
+
+                    <div class="info-section">
+
+                        <h3>
+                            Location
+                        </h3>
+
+
+                        <div class="form-grid">
+
+                            <div>
+
+                                <label>
+                                    State
+                                </label>
+
+                                <select
+                                    id="pState"
+                                    disabled
+                                >
+
+                                    <option>
+                                        Kerala
+                                    </option>
+
+                                    <option>
+                                        Tamil Nadu
+                                    </option>
+
+                                    <option>
+                                        Karnataka
+                                    </option>
+
+                                    <option>
+                                        Maharashtra
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    District
+                                </label>
+
+                                <input
+                                    id="pDistrict"
+                                    value="Ernakulam"
+                                    disabled
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EDUCATION -->
+
+                    <div class="info-section">
+
+                        <h3>
+                            Education & Work
+                        </h3>
+
+
+                        <div class="form-grid">
+
+                            <div>
+
+                                <label>
+                                    Education
+                                </label>
+
+                                <select
+                                    id="pEducation"
+                                    disabled
+                                >
+
+                                    <option>
+                                        Undergraduate
+                                    </option>
+
+                                    <option>
+                                        Postgraduate
+                                    </option>
+
+                                    <option>
+                                        School
+                                    </option>
+
+                                    <option>
+                                        Diploma
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Occupation
+                                </label>
+
+                                <select
+                                    id="pOccupation"
+                                    disabled
+                                >
+
+                                    <option>
+                                        Student
+                                    </option>
+
+                                    <option>
+                                        Employee
+                                    </option>
+
+                                    <option>
+                                        Self-employed
+                                    </option>
+
+                                    <option>
+                                        Farmer
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Annual Income
+                                </label>
+
+                                <select
+                                    id="pIncome"
+                                    disabled
+                                >
+
+                                    <option>
+                                        Below ₹2.5 lakh
+                                    </option>
+
+                                    <option>
+                                        ₹2.5 - ₹5 lakh
+                                    </option>
+
+                                    <option>
+                                        ₹5 - ₹10 lakh
+                                    </option>
+
+                                    <option>
+                                        Above ₹10 lakh
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ADDITIONAL -->
+
+                    <div class="info-section">
+
+                        <h3>
+                            Additional Information
+                        </h3>
+
+
+                        <div class="form-grid">
+
+                            <div>
+
+                                <label>
+                                    Category
+                                </label>
+
+                                <select
+                                    id="pCategory"
+                                    disabled
+                                >
+
+                                    <option>
+                                        OBC
+                                    </option>
+
+                                    <option>
+                                        SC
+                                    </option>
+
+                                    <option>
+                                        ST
+                                    </option>
+
+                                    <option>
+                                        EWS
+                                    </option>
+
+                                    <option>
+                                        General
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Disability Status
+                                </label>
+
+                                <select
+                                    id="pDisability"
+                                    disabled
+                                >
+
+                                    <option>
+                                        No
+                                    </option>
+
+                                    <option>
+                                        Yes
+                                    </option>
+
+                                    <option>
+                                        Prefer not to say
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        id="profileSaveArea"
+                        class="profile-save hidden"
+                    >
+
+                        <button
+                            type="button"
+                            class="btn primary"
+                            onclick="saveProfile()"
+                        >
+                            Save Changes
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn outline"
+                            onclick="toggleEditProfile()"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+
+            <!-- ================= NOTIFICATIONS ================= -->
+
+            <section
+                id="notifications"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            UPDATES
+                        </p>
+
+                        <h1>
+                            Notifications
+                        </h1>
+
+                        <p>
+                            Important updates about your benefits.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="notification-list">
+
+                    <div class="notification">
+
+                        <span class="notification-icon">
+                            ◷
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Deadline approaching
+                            </strong>
+
+                            <p>
+                                Post-Matric Scholarship closes on
+                                28 August 2026.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification">
+
+                        <span class="notification-icon">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                New benefit found
+                            </strong>
+
+                            <p>
+                                A new scheme may match your profile.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification">
+
+                        <span class="notification-icon">
+                            ♡
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Saved scheme reminder
+                            </strong>
+
+                            <p>
+                                You saved Student Financial Assistance.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= ADMIN ================= -->
+
+            <section
+                id="admin"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            ADMINISTRATION
+                        </p>
+
+                        <h1>
+                            Admin Dashboard
+                        </h1>
+
+                        <p>
+                            Manage government benefit information.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn primary"
+                        onclick="openAdminForm()"
+                    >
+                        + Add Scheme
+                    </button>
+
+                </div>
+
+
+
+                <div class="stats">
+
+                    <div class="stat-card">
+
+                        <strong>
+                            1,248
+                        </strong>
+
+                        <span>
+                            Active schemes
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong>
+                            82
+                        </strong>
+
+                        <span>
+                            Pending updates
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong>
+                            14
+                        </strong>
+
+                        <span>
+                            Deadlines soon
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Scheme
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Deadline
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="adminTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= ADMIN FORM ================= -->
+
+            <section
+                id="adminForm"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            SCHEME MANAGEMENT
+                        </p>
+
+                        <h1>
+                            Add Government Scheme
+                        </h1>
+
+                        <p>
+                            Enter the information citizens will see.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-form-card">
+
+                    <div class="form-grid">
+
+                        <div class="full-field">
+
+                            <label>
+                                Scheme Name
+                            </label>
+
+                            <input
+                                id="aName"
+                                placeholder="Scheme name"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Category
+                            </label>
+
+                            <select id="aCategory">
+
+                                <option>
+                                    Education
+                                </option>
+
+                                <option>
+                                    Employment
+                                </option>
+
+                                <option>
+                                    Housing
+                                </option>
+
+                                <option>
+                                    Healthcare
+                                </option>
+
+                                <option>
+                                    Agriculture
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Benefit
+                            </label>
+
+                            <input
+                                id="aBenefit"
+                                placeholder="e.g. Up to ₹25,000"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Deadline
+                            </label>
+
+                            <input
+                                id="aDeadline"
+                                placeholder="28 August 2026"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Official URL
+                            </label>
+
+                            <input
+                                id="aUrl"
+                                placeholder="https://..."
+                            >
+
+                        </div>
+
+
+                        <div class="full-field">
+
+                            <label>
+                                Description
+                            </label>
+
+                            <textarea
+                                id="aDescription"
+                                rows="4"
+                                placeholder="Short description"
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full-field">
+
+                            <label for="aEligibility">
+                                Eligibility Rules (JSON)
+                            </label>
+
+                            <textarea
+                                id="aEligibility"
+                                rows="4"
+                                placeholder='{"occupations":["Farmer"],"states":["Kerala"]}'
+                            ></textarea>
+
+                            <small>
+                                Enter the eligibility conditions for this scheme. Use valid JSON.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="btn outline"
+                            onclick="showPage('admin')"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            class="btn primary"
+                            onclick="addScheme()"
+                        >
+                            Save Scheme
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= SCHEME DETAILS ================= -->
+
+<div
+    id="detailsModal"
+    class="modal hidden"
+>
+
+    <div
+        class="modal-overlay"
+        onclick="closeDetails()"
+    ></div>
+
+
+    <div class="modal-card">
+
+        <button
+            class="close-btn"
+            onclick="closeDetails()"
+        >
+            ×
+        </button>
+
+
+        <p
+            id="detailCategory"
+            class="eyebrow"
+        ></p>
+
+
+        <h2 id="detailName"></h2>
+
+
+        <p
+            id="detailDescription"
+            class="modal-description"
+        ></p>
+
+
+
+        <div class="benefit-box">
+
+            <span>
+                Benefit
+            </span>
+
+            <strong id="detailBenefit"></strong>
+
+        </div>
+
+
+
+        <h3>
+            Why you may match
+        </h3>
+
+
+        <div class="match-list">
+
+            <p>
+                ✓ Your education matches
+            </p>
+
+            <p>
+                ✓ Your income is within the limit
+            </p>
+
+            <p>
+                ✓ Your location is covered
+            </p>
+
+            <p>
+                ✓ Your profile meets the basic criteria
+            </p>
+
+        </div>
+
+
+
+        <h3>
+            Required Documents
+        </h3>
+
+
+        <ul class="documents">
+
+            <li>
+                ID proof
+            </li>
+
+            <li>
+                Income certificate
+            </li>
+
+            <li>
+                Education / student certificate
+            </li>
+
+            <li>
+                Bank account details
+            </li>
+
+        </ul>
+
+
+
+        <div class="deadline-box">
+
+            <span>
+                Application Deadline
+            </span>
+
+            <strong id="detailDeadline"></strong>
+
+        </div>
+
+
+
+        <div class="modal-actions">
+
+            <button
+                id="saveDetailBtn"
+                class="btn outline"
+            ></button>
+
+
+            <button
+                id="applyBtn"
+                class="btn primary"
+            >
+                Apply on Official Website ↗
+            </button>
+
+        </div>
+
+
+        <p class="official-note">
+            You will be redirected to the official application website.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
