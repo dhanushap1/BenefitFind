@@ -1,171 +1,753 @@
-<!-- ================= LOGIN ================= -->
 
-<section class="auth-page" *ngIf="!showRegisterPage">
-
+<!-- LOGIN TYPE SELECTION -->
+<section class="auth-page" *ngIf="pageMode === 'selection'">
   <div class="auth-card">
+    <div class="brand center">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind</span>
+    </div>
 
+    <h1>Welcome to BenefitFind</h1>
+    <p class="muted">Choose how you want to continue.</p>
+
+    <div class="choice-list">
+      <button class="btn primary full choice-btn" type="button" (click)="selectUser()">
+        User Login
+        <span>Find government schemes for you</span>
+      </button>
+
+      <button class="btn secondary full choice-btn" type="button" (click)="selectAdmin()">
+        Admin Login
+        <span>Manage government schemes</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- USER LOGIN -->
+<section class="auth-page" *ngIf="pageMode === 'login'">
+  <div class="auth-card">
     <div class="brand center">
       <span class="brand-icon">✓</span>
       <span>BenefitFind</span>
     </div>
 
     <h1>Find benefits you may be eligible for.</h1>
-
-    <p class="muted">
-      One profile. Relevant government schemes. Less searching.
-    </p>
+    <p class="muted">One profile. Relevant government schemes. Less searching.</p>
 
     <form (ngSubmit)="login()">
-
-      <label>Email</label>
-
+      <label for="loginEmail">Email</label>
       <input
+        id="loginEmail"
         type="email"
         name="loginEmail"
         [(ngModel)]="loginEmail"
         placeholder="you@example.com"
         required
-      >
+      />
 
-      <label>Password</label>
-
+      <label for="loginPassword">Password</label>
       <input
+        id="loginPassword"
         type="password"
         name="loginPassword"
         [(ngModel)]="loginPassword"
-        placeholder="••••••••"
+        placeholder="Enter your password"
         required
-      >
+      />
 
-      <button
-        class="btn primary full"
-        type="submit"
-      >
-        Login
+      <button class="btn primary full" type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Please wait...' : 'Login' }}
       </button>
-
     </form>
 
     <p class="auth-switch">
-
       Don't have an account?
-
-      <button
-        class="text-btn"
-        type="button"
-        (click)="showRegister()"
-      >
-        Create account
-      </button>
-
+      <button class="text-btn" type="button" (click)="showRegister()">Create account</button>
     </p>
 
-    <div
-      *ngIf="message"
-      class="message"
+    <button class="back-btn" type="button" (click)="goBack()">← Back to selection</button>
+
+    <div *ngIf="message" class="message"
       [class.success]="messageType === 'success'"
-      [class.error]="messageType === 'error'"
-    >
+      [class.error]="messageType === 'error'">
       {{ message }}
     </div>
-
   </div>
-
 </section>
 
-
-<!-- ================= REGISTER ================= -->
-
-<section class="auth-page" *ngIf="showRegisterPage">
-
+<!-- USER REGISTRATION -->
+<section class="auth-page" *ngIf="pageMode === 'register'">
   <div class="auth-card">
-
     <div class="brand center">
       <span class="brand-icon">✓</span>
       <span>BenefitFind</span>
     </div>
 
     <h1>Create your account</h1>
-
-    <p class="muted">
-      Create your profile to find relevant government benefits.
-    </p>
+    <p class="muted">Create your profile to find relevant government benefits.</p>
 
     <form (ngSubmit)="register()">
-
-      <label>Full Name</label>
-
+      <label for="registerName">Full Name</label>
       <input
+        id="registerName"
         type="text"
         name="registerName"
         [(ngModel)]="registerName"
         placeholder="Enter your name"
         required
-      >
+      />
 
-      <label>Email</label>
-
+      <label for="registerEmail">Email</label>
       <input
+        id="registerEmail"
         type="email"
         name="registerEmail"
         [(ngModel)]="registerEmail"
         placeholder="you@example.com"
         required
-      >
+      />
 
-      <label>Password</label>
-
+      <label for="registerPassword">Password</label>
       <input
+        id="registerPassword"
         type="password"
         name="registerPassword"
         [(ngModel)]="registerPassword"
         placeholder="Create password"
         required
-      >
+      />
 
-      <label>Confirm Password</label>
-
+      <label for="confirmPassword">Confirm Password</label>
       <input
+        id="confirmPassword"
         type="password"
         name="confirmPassword"
         [(ngModel)]="confirmPassword"
         placeholder="Confirm password"
         required
-      >
+      />
 
-      <button
-        class="btn primary full"
-        type="submit"
-        [disabled]="isRegistering"
-      >
-        {{ isRegistering ? 'Creating Account...' : 'Create Account' }}
+      <button class="btn primary full" type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Creating Account...' : 'Create Account' }}
       </button>
-
     </form>
 
     <p class="auth-switch">
-
       Already have an account?
-
-      <button
-        class="text-btn"
-        type="button"
-        (click)="showLogin()"
-      >
-        Login
-      </button>
-
+      <button class="text-btn" type="button" (click)="showLogin()">Login</button>
     </p>
 
-    <div
-      *ngIf="message"
-      class="message"
+    <button class="back-btn" type="button" (click)="goBack()">← Back to selection</button>
+
+    <div *ngIf="message" class="message"
       [class.success]="messageType === 'success'"
-      [class.error]="messageType === 'error'"
-    >
+      [class.error]="messageType === 'error'">
       {{ message }}
     </div>
-
   </div>
+</section>
 
+<!-- ADMIN LOGIN -->
+<section class="auth-page" *ngIf="pageMode === 'adminLogin'">
+  <div class="auth-card">
+    <div class="brand center">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind Admin</span>
+    </div>
+
+    <h1>Admin Login</h1>
+    <p class="muted">Sign in to manage government schemes.</p>
+
+    <form (ngSubmit)="adminLogin()">
+      <label for="adminEmail">Admin Email</label>
+      <input
+        id="adminEmail"
+        type="email"
+        name="adminEmail"
+        [(ngModel)]="adminEmail"
+        placeholder="Enter admin email"
+        required
+      />
+
+      <label for="adminPassword">Password</label>
+      <input
+        id="adminPassword"
+        type="password"
+        name="adminPassword"
+        [(ngModel)]="adminPassword"
+        placeholder="Enter admin password"
+        required
+      />
+
+      <button class="btn primary full" type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Please wait...' : 'Login as Admin' }}
+      </button>
+    </form>
+
+    <button class="back-btn" type="button" (click)="goBack()">← Back to selection</button>
+
+    <div *ngIf="message" class="message"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'">
+      {{ message }}
+    </div>
+  </div>
+</section>
+
+
+<!-- ADMIN DASHBOARD -->
+<section class="dashboard-page" *ngIf="pageMode === 'adminDashboard'">
+  <header class="dashboard-topbar">
+    <div class="brand">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind Admin</span>
+    </div>
+    <div class="user-info">
+      <span>Welcome, {{ adminName }}</span>
+      <button class="btn secondary logout-btn" type="button" (click)="adminLogout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <p class="sidebar-label">ADMIN MENU</p>
+      <button type="button" class="nav-item" [class.active]="adminActivePage === 'dashboard'" (click)="changeAdminPage('dashboard')">Dashboard</button>
+      <button type="button" class="nav-item" [class.active]="adminActivePage === 'schemes'" (click)="changeAdminPage('schemes')">Manage Schemes</button>
+      
+    </aside>
+
+    <main class="dashboard-content">
+      <div *ngIf="adminMessage" class="message" [class.success]="adminMessageType === 'success'" [class.error]="adminMessageType === 'error'">
+        {{ adminMessage }}
+      </div>
+
+      <section *ngIf="adminActivePage === 'dashboard'">
+        <p class="eyebrow">BENEFITFIND ADMINISTRATION</p>
+        <h1>Admin Dashboard</h1>
+        <p class="muted">Manage government schemes and review platform information.</p>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Total Schemes</span><strong>{{ adminSchemes.length }}</strong></article>
+          <article class="stat-card"><span>Admin Account</span><strong class="admin-stat-label">Active</strong></article>
+        </div>
+        <div class="section-heading">
+          <div><h2>Scheme Management</h2><p class="muted">Add or update the schemes available to users.</p></div>
+          <button class="btn primary" type="button" (click)="changeAdminPage('schemes')">Manage Schemes</button>
+        </div>
+      </section>
+
+      <section *ngIf="adminActivePage === 'schemes'">
+        <div class="section-heading admin-title-row">
+          <div><h1>Manage Schemes</h1><p class="muted">Add, edit, or remove government schemes.</p></div>
+          <button class="btn primary" type="button" (click)="startAddScheme()">+ Add Scheme</button>
+        </div>
+
+        <form *ngIf="showSchemeForm" class="profile-card admin-scheme-form" (ngSubmit)="saveScheme()">
+          <h2>{{ editingSchemeId ? 'Edit Scheme' : 'Add New Scheme' }}</h2>
+          <div class="profile-grid">
+            <div class="profile-field">
+              <label for="adminSchemeName">Scheme Name *</label>
+              <input id="adminSchemeName" name="adminSchemeName" [(ngModel)]="schemeForm.name" required />
+            </div>
+            <div class="profile-field">
+              <label for="adminSchemeCategory">Category *</label>
+              <select id="adminSchemeCategory" name="adminSchemeCategory" [(ngModel)]="schemeForm.category" required>
+                <option>Education</option><option>Employment</option><option>Housing</option><option>Healthcare</option><option>Agriculture</option><option>Other</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label for="adminSchemeBenefit">Benefit *</label>
+              <input id="adminSchemeBenefit" name="adminSchemeBenefit" [(ngModel)]="schemeForm.benefit" required />
+            </div>
+            <div class="profile-field">
+              <label for="adminSchemeDeadline">Deadline *</label>
+              <input id="adminSchemeDeadline" name="adminSchemeDeadline" type="date" [(ngModel)]="schemeForm.deadline" required />
+            </div>
+            <div class="profile-field">
+              <label for="adminSchemeUrl">Official Website</label>
+              <input id="adminSchemeUrl" name="adminSchemeUrl" type="url" [(ngModel)]="schemeForm.url" placeholder="https://..." />
+            </div>
+            <div class="profile-field">
+              <label for="adminSchemeEligibility">Eligibility (comma-separated)</label>
+              <input id="adminSchemeEligibility" name="adminSchemeEligibility" [(ngModel)]="schemeForm.eligibility" placeholder="Student, Low income" />
+            </div>
+            <div class="profile-field admin-full-field">
+              <label for="adminSchemeDescription">Description</label>
+              <textarea id="adminSchemeDescription" name="adminSchemeDescription" [(ngModel)]="schemeForm.description" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn primary" type="submit" [disabled]="isSavingScheme">{{ isSavingScheme ? 'Saving...' : 'Save Scheme' }}</button>
+            <button class="btn secondary" type="button" [disabled]="isSavingScheme" (click)="cancelSchemeForm()">Cancel</button>
+          </div>
+        </form>
+
+        <div *ngIf="isLoadingAdmin" class="empty-state">Loading schemes...</div>
+        <div class="admin-scheme-list" *ngIf="!isLoadingAdmin">
+          <article class="admin-scheme-row" *ngFor="let scheme of adminSchemes">
+            <div class="admin-scheme-details">
+              <span class="category-tag">{{ scheme.category || 'Other' }}</span>
+              <h3>{{ scheme.name }}</h3>
+              <p>{{ scheme.description || scheme.benefit }}</p>
+              <small>Benefit: {{ scheme.benefit }} · Deadline: {{ scheme.deadline || 'Not specified' }}</small>
+            </div>
+            <div class="admin-row-actions">
+              <button class="btn secondary" type="button" (click)="startEditScheme(scheme)">Edit</button>
+              <button class="btn danger" type="button" (click)="deleteScheme(scheme)">Delete</button>
+            </div>
+          </article>
+          <p *ngIf="adminSchemes.length === 0" class="empty-state">No schemes found.</p>
+        </div>
+      </section>
+
+      <section *ngIf="adminActivePage === 'users'">
+        <h1>Registered Users</h1>
+        <p class="muted">Registered user profiles and eligibility details.</p>
+        <div class="empty-state">
+          The current backend does not yet provide an admin endpoint to list registered users. Scheme management is connected; user listing needs a protected API endpoint before this section can display real data.
+        </div>
+      </section>
+    </main>
+  </div>
+</section>
+
+<!-- USER DASHBOARD -->
+<section class="dashboard-page" *ngIf="pageMode === 'dashboard'">
+  <header class="dashboard-topbar">
+    <div class="brand">
+      <span class="brand-icon">✓</span>
+      <span>BenefitFind</span>
+    </div>
+
+    <div class="user-info">
+      <span>Welcome, {{ userName }}</span>
+      <button class="btn secondary logout-btn" type="button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <p class="sidebar-label">MENU</p>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activePage === 'dashboard'"
+        (click)="changePage('dashboard')">
+        Dashboard
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activePage === 'explore'"
+        (click)="changePage('explore')">
+        Explore Schemes
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activePage === 'saved'"
+        (click)="changePage('saved')">
+        Saved Schemes ({{ savedSchemes.length }})
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activePage === 'deadlines'"
+        (click)="changePage('deadlines')">
+        Deadlines
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activePage === 'profile'"
+        (click)="changePage('profile')">
+        Profile
+      </button>
+    </aside>
+
+    <main class="dashboard-content">
+      <!-- DASHBOARD HOME -->
+      <section *ngIf="activePage === 'dashboard'">
+        <p class="eyebrow">YOUR BENEFITS, SIMPLIFIED</p>
+        <h1>Welcome, {{ userName.split(' ')[0] }}!</h1>
+        <p class="muted">
+          Explore government schemes and discover benefits that may suit you.
+        </p>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Available Schemes</span>
+            <strong>{{ schemes.length }}</strong>
+          </article>
+
+          <article class="stat-card">
+            <span>Saved Schemes</span>
+            <strong>{{ savedSchemes.length }}</strong>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Explore Benefits</h2>
+            <p class="muted">Browse the schemes available in BenefitFind.</p>
+          </div>
+
+          <button class="btn primary" type="button" (click)="changePage('explore')">
+            View All
+          </button>
+        </div>
+
+        <div *ngIf="isLoadingSchemes" class="empty-state">
+          Loading schemes...
+        </div>
+
+        <div *ngIf="schemeMessage" class="message error">
+          {{ schemeMessage }}
+          <button class="text-btn" type="button" (click)="loadSchemes()">
+            Retry
+          </button>
+        </div>
+
+        <div class="scheme-grid">
+          <article class="scheme-card" *ngFor="let scheme of recommendedSchemes">
+            <span class="category-tag">{{ scheme.category }}</span>
+            <h3>{{ scheme.name }}</h3>
+            <p>{{ scheme.description || scheme.benefit }}</p>
+
+            <div class="scheme-meta">
+              <span>Benefit</span>
+              <strong>{{ scheme.benefit }}</strong>
+            </div>
+
+            <div class="scheme-meta">
+              <span>Deadline</span>
+              <strong>{{ scheme.deadline }}</strong>
+            </div>
+
+            <button
+              class="btn secondary full"
+              type="button"
+              (click)="toggleSave(scheme)">
+              {{ isSaved(scheme) ? '♥ Saved' : '♡ Save Scheme' }}
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- EXPLORE -->
+      <section *ngIf="activePage === 'explore'">
+        <h1>Explore Government Schemes</h1>
+        <p class="muted">Search and filter schemes by category.</p>
+
+        <div class="filter-bar">
+          <input
+            type="search"
+            name="searchText"
+            [(ngModel)]="searchText"
+            placeholder="Search schemes..." />
+
+          <select name="selectedCategory" [(ngModel)]="selectedCategory">
+            <option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </option>
+          </select>
+        </div>
+
+        <p class="muted">{{ filteredSchemes.length }} scheme(s) found</p>
+
+        <div *ngIf="isLoadingSchemes" class="empty-state">Loading schemes...</div>
+
+        <div class="scheme-grid">
+          <article class="scheme-card" *ngFor="let scheme of filteredSchemes">
+            <span class="category-tag">{{ scheme.category }}</span>
+            <h3>{{ scheme.name }}</h3>
+            <p>{{ scheme.description || scheme.benefit }}</p>
+
+            <div class="scheme-meta">
+              <span>Benefit</span>
+              <strong>{{ scheme.benefit }}</strong>
+            </div>
+
+            <div class="scheme-meta">
+              <span>Deadline</span>
+              <strong>{{ scheme.deadline }}</strong>
+            </div>
+
+            <button
+              class="btn secondary full"
+              type="button"
+              (click)="toggleSave(scheme)">
+              {{ isSaved(scheme) ? '♥ Saved' : '♡ Save Scheme' }}
+            </button>
+
+            <a
+              *ngIf="scheme.url"
+              class="scheme-link"
+              [href]="scheme.url"
+              target="_blank"
+              rel="noopener noreferrer">
+              Visit official website ↗
+            </a>
+          </article>
+        </div>
+
+        <p *ngIf="!isLoadingSchemes && filteredSchemes.length === 0" class="empty-state">
+          No schemes found. Try a different search or category.
+        </p>
+      </section>
+
+      <!-- SAVED SCHEMES -->
+      <section *ngIf="activePage === 'saved'">
+        <h1>Saved Schemes</h1>
+        <p class="muted">Your saved schemes are stored in this browser.</p>
+
+        <div class="scheme-grid">
+          <article class="scheme-card" *ngFor="let scheme of savedSchemeList">
+            <span class="category-tag">{{ scheme.category }}</span>
+            <h3>{{ scheme.name }}</h3>
+            <p>{{ scheme.description || scheme.benefit }}</p>
+            <div class="scheme-meta">
+              <span>Deadline</span>
+              <strong>{{ scheme.deadline }}</strong>
+            </div>
+            <button class="btn secondary full" type="button" (click)="toggleSave(scheme)">
+              Remove from Saved
+            </button>
+          </article>
+        </div>
+
+        <p *ngIf="savedSchemeList.length === 0" class="empty-state">
+          You haven't saved any schemes yet. Visit Explore Schemes to save one.
+        </p>
+      </section>
+
+      <!-- DEADLINES -->
+      <section *ngIf="activePage === 'deadlines'">
+        <h1>Scheme Deadlines</h1>
+        <p class="muted">Review the deadlines listed for available schemes.</p>
+
+        <div class="deadline-list">
+          <article class="deadline-card" *ngFor="let scheme of schemes">
+            <div>
+              <h3>{{ scheme.name }}</h3>
+              <p>{{ scheme.category }} · {{ scheme.benefit }}</p>
+            </div>
+            <strong>{{ scheme.deadline || 'Not specified' }}</strong>
+          </article>
+        </div>
+
+        <p *ngIf="schemes.length === 0" class="empty-state">
+          No schemes are currently available.
+        </p>
+      </section>
+
+
+      <!-- PROFILE -->
+      <section *ngIf="activePage === 'profile'">
+        <h1>Your Profile</h1>
+        <p class="muted">Manage your account and eligibility details.</p>
+
+        <div *ngIf="isLoadingProfile" class="empty-state">
+          Loading your profile...
+        </div>
+
+        <div
+          *ngIf="profileMessage"
+          class="message"
+          [class.success]="profileMessageType === 'success'"
+          [class.error]="profileMessageType === 'error'">
+          {{ profileMessage }}
+        </div>
+
+        <form
+          *ngIf="!isLoadingProfile"
+          class="profile-card"
+          (ngSubmit)="saveProfile()">
+
+          <div class="section-heading">
+            <div>
+              <h2>Personal Information</h2>
+              <p class="muted">Your basic account details.</p>
+            </div>
+
+            <button
+              *ngIf="!isEditingProfile"
+              class="btn primary"
+              type="button"
+              (click)="editProfile()">
+              Edit Profile
+            </button>
+          </div>
+
+          <div class="profile-grid">
+            <div class="profile-field">
+              <label for="profileName">Full Name</label>
+              <input
+                id="profileName"
+                name="profileName"
+                [(ngModel)]="profile.name"
+                [disabled]="!isEditingProfile"
+                required />
+            </div>
+
+            <div class="profile-field">
+              <label for="profileEmail">Email</label>
+              <input
+                id="profileEmail"
+                name="profileEmail"
+                type="email"
+                [(ngModel)]="profile.email"
+                disabled />
+              <small>Email cannot be changed here.</small>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileAge">Age</label>
+              <input
+                id="profileAge"
+                name="profileAge"
+                type="number"
+                min="0"
+                max="120"
+                [(ngModel)]="profile.age"
+                [disabled]="!isEditingProfile" />
+            </div>
+
+            <div class="profile-field">
+              <label for="profileGender">Gender</label>
+              <select
+                id="profileGender"
+                name="profileGender"
+                [(ngModel)]="profile.gender"
+                [disabled]="!isEditingProfile">
+                <option value="">Select gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileState">State</label>
+              <input
+                id="profileState"
+                name="profileState"
+                [(ngModel)]="profile.state"
+                [disabled]="!isEditingProfile" />
+            </div>
+
+            <div class="profile-field">
+              <label for="profileDistrict">District</label>
+              <input
+                id="profileDistrict"
+                name="profileDistrict"
+                [(ngModel)]="profile.district"
+                [disabled]="!isEditingProfile" />
+            </div>
+
+            <div class="profile-field">
+              <label for="profileEducation">Education</label>
+              <select
+                id="profileEducation"
+                name="profileEducation"
+                [(ngModel)]="profile.education"
+                [disabled]="!isEditingProfile">
+                <option value="">Select education</option>
+                <option value="School">School</option>
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Graduate">Graduate</option>
+                <option value="Postgraduate">Postgraduate</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileOccupation">Occupation</label>
+              <select
+                id="profileOccupation"
+                name="profileOccupation"
+                [(ngModel)]="profile.occupation"
+                [disabled]="!isEditingProfile">
+                <option value="">Select occupation</option>
+                <option value="Student">Student</option>
+                <option value="Farmer">Farmer</option>
+                <option value="Employed">Employed</option>
+                <option value="Self-employed">Self-employed</option>
+                <option value="Unemployed">Unemployed</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileIncome">Annual Income</label>
+              <select
+                id="profileIncome"
+                name="profileIncome"
+                [(ngModel)]="profile.income"
+                [disabled]="!isEditingProfile">
+                <option [ngValue]="null">Select income range</option>
+                <option [ngValue]="250000">Below ₹2.5 lakh</option>
+                <option [ngValue]="500000">₹2.5–5 lakh</option>
+                <option [ngValue]="1000000">₹5–10 lakh</option>
+                <option [ngValue]="1000001">Above ₹10 lakh</option>
+              </select>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileCategory">Category</label>
+              <select
+                id="profileCategory"
+                name="profileCategory"
+                [(ngModel)]="profile.category"
+                [disabled]="!isEditingProfile">
+                <option value="">Select category</option>
+                <option value="General">General</option>
+                <option value="OBC">OBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="profile-field">
+              <label for="profileDisability">Person with disability</label>
+              <select
+                id="profileDisability"
+                name="profileDisability"
+                [(ngModel)]="profile.disability"
+                [disabled]="!isEditingProfile">
+                <option [ngValue]="false">No</option>
+                <option [ngValue]="true">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div *ngIf="isEditingProfile" class="profile-actions">
+            <button
+              class="btn primary"
+              type="submit"
+              [disabled]="isSavingProfile">
+              {{ isSavingProfile ? 'Saving...' : 'Save Changes' }}
+            </button>
+
+            <button
+              class="btn secondary"
+              type="button"
+              [disabled]="isSavingProfile"
+              (click)="cancelProfileEdit()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+  </div>
 </section>
